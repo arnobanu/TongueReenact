@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TongueReenact: Geometry-Anchored Tongue Synthesis for Face Reenactment</title>
+<meta name="description" content="TongueReenact — the first framework for cross-identity tongue dynamics transfer in face reenactment. WACV 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0b7285;        /* teal */
+    --accent-dark:#095c6b;
+    --ink:#1b1f24;
+    --muted:#5b6670;
+    --line:#e6e9ec;
+    --bg:#ffffff;
+    --soft:#f6f8f9;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65; font-size:18px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 20px;}
+  /* Header */
+  header{padding:56px 0 28px; text-align:center; border-bottom:1px solid var(--line);}
+  h1{
+    font-family:'Noto Serif',Georgia,serif; font-weight:600;
+    font-size:2.15rem; line-height:1.25; margin:0 0 22px; letter-spacing:-.01em;
+  }
+  .venue{
+    display:inline-block; margin-bottom:22px; padding:4px 14px; border-radius:999px;
+    background:var(--soft); color:var(--accent-dark); font-weight:700;
+    font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line);
+  }
+  .authors{font-size:1.12rem; margin:0 0 6px; font-weight:400;}
+  .authors a{color:var(--accent); text-decoration:none;}
+  .authors a:hover{text-decoration:underline;}
+  .authors sup{color:var(--muted); font-size:.75em;}
+  .affil{color:var(--muted); font-size:.98rem; margin:4px 0 2px;}
+  .corr{color:var(--muted); font-size:.86rem; margin-top:6px;}
+  /* Buttons */
+  .links{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:28px 0 4px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 20px; border-radius:999px; background:var(--ink); color:#fff;
+    text-decoration:none; font-weight:700; font-size:.95rem; transition:transform .08s ease, background .15s ease;
+  }
+  .btn:hover{background:var(--accent-dark); transform:translateY(-1px);}
+  .btn svg{width:17px; height:17px; fill:currentColor;}
+  /* Sections */
+  section{padding:40px 0; border-bottom:1px solid var(--line);}
+  h2{
+    font-family:'Noto Serif',Georgia,serif; font-weight:600; text-align:center;
+    font-size:1.6rem; margin:0 0 22px;
+  }
+  .teaser{margin:34px 0 6px; text-align:center;}
+  .teaser img{width:100%; height:auto; border-radius:10px; border:1px solid var(--line);}
+  .cap{color:var(--muted); font-size:.92rem; margin-top:12px; text-align:left;}
+  .abstract p{margin:0; text-align:justify;}
+  video{width:100%; border-radius:10px; border:1px solid var(--line); background:#000; display:block;}
+  /* BibTeX */
+  .bibtex pre{
+    background:var(--soft); border:1px solid var(--line); border-radius:10px;
+    padding:18px 20px; overflow-x:auto; font-size:.86rem; line-height:1.5;
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; color:#243; margin:0;
+  }
+  .copybar{display:flex; justify-content:flex-end; margin-bottom:8px;}
+  .copybtn{
+    border:1px solid var(--line); background:#fff; color:var(--muted);
+    border-radius:8px; padding:6px 14px; font-size:.82rem; cursor:pointer; font-weight:700;
+  }
+  .copybtn:hover{color:var(--accent-dark); border-color:var(--accent);}
+  footer{padding:32px 0 56px; text-align:center; color:var(--muted); font-size:.86rem;}
+  @media (max-width:600px){
+    body{font-size:16px;}
+    h1{font-size:1.7rem;}
+    header{padding:40px 0 24px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="venue">WACV 2027</div>
+    <h1>TongueReenact: Geometry-Anchored Tongue<br>Synthesis for Face Reenactment</h1>
+    <p class="authors">
+      MD Wahiduzzaman Khan<sup>1</sup>,
+      Mingshan Jia<sup>1</sup>,
+      Xiaolin Zhang<sup>2&#9733;</sup>,
+      En Yu<sup>1</sup>,
+      Katarzyna Musial-Gabrys<sup>1</sup>
+    </p>
+    <p class="affil"><sup>1</sup>University of Technology Sydney, Australia&nbsp;&nbsp;&middot;&nbsp;&nbsp;<sup>2</sup>Shandong University of Science and Technology, China</p>
+    <p class="corr">&#9733; Corresponding author</p>
+    <div class="links">
+      <a class="btn" href="static/paper.pdf">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15a0 0 0 0 1 0 0H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 13h8v1.6H8zm0 3.2h8v1.6H8zm0-6.4h5v1.6H8z"/></svg>
+        Paper
+      </a>
+      <a class="btn" href="static/supplementary.pdf">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5z"/></svg>
+        Supplementary
+      </a>
+      <a class="btn" href="#video">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm6 4v8l6-4z"/></svg>
+        Video
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="teaser">
+    <img src="static/teaser.jpg" alt="TongueReenact teaser: existing reenactment methods leave the mouth interior empty while TongueReenact synthesizes anatomically consistent tongue dynamics.">
+    <p class="cap">Existing face-reenactment methods render the mouth interior as a void or blur and cannot transfer tongue articulation across identities. TongueReenact is the first framework to synthesize cross-identity tongue dynamics within a reenacted face.</p>
+  </div>
+
+  <section class="abstract">
+    <h2>Abstract</h2>
+    <p>Modern face reenactment systems achieve impressive pose and expression transfer using geometry-driven representations. However, they largely ignore tongue dynamics, leading to anatomically inconsistent mouth interiors during speech and expressive motions. We introduce the first framework for cross-identity tongue dynamics transfer in face reenactment. We propose a foundation-model-assisted bootstrapping pipeline that produces a dedicated tongue segmentation model for in-the-wild reenactment without curated annotations. We further introduce a spatially constrained latent masked diffusion model for realistic tongue synthesis, with adaptive mask dilation for seamless mouth boundary transitions. Extensive experiments demonstrate consistent improvements over all baselines on every tongue-specific metric, exceeding two times on tongue IoU and area similarity. We additionally propose a VLM-based evaluation protocol that replicates expert annotation at scale, confirming perceptual superiority across all ablation variants.</p>
+  </section>
+
+  <section id="video">
+    <h2>Demo Video</h2>
+    <video controls muted loop playsinline preload="metadata" poster="static/teaser.jpg">
+      <source src="static/demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <section class="bibtex">
+    <h2>BibTeX</h2>
+    <div class="copybar"><button class="copybtn" id="copy">Copy</button></div>
+    <pre id="bib">@inproceedings{khan2027tonguereenact,
+  title     = {TongueReenact: Geometry-Anchored Tongue Synthesis for Face Reenactment},
+  author    = {Khan, MD Wahiduzzaman and Jia, Mingshan and Zhang, Xiaolin and Yu, En and Musial-Gabrys, Katarzyna},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
+}</pre>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    &copy; 2027 The Authors. Page template is free to reuse.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('copy').addEventListener('click', function(){
+    var t = document.getElementById('bib').innerText;
+    navigator.clipboard.writeText(t).then(function(){
+      var b = document.getElementById('copy');
+      b.textContent = 'Copied!';
+      setTimeout(function(){ b.textContent = 'Copy'; }, 1600);
+    });
+  });
+</script>
+</body>
+</html>
