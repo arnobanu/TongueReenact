@@ -128,7 +128,7 @@
 
   <section id="video">
     <h2>Demo Video</h2>
-    <video autoplay muted loop playsinline controls preload="auto" poster="static/teaser.jpg">
+    <video id="demo" autoplay muted loop playsinline preload="auto" poster="static/teaser.jpg">
       <source src="static/demo.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -154,6 +154,17 @@
 </footer>
 
 <script>
+  // Force the demo video to play like a GIF (defeats some autoplay blockers)
+  (function(){
+    var v = document.getElementById('demo');
+    if(!v) return;
+    v.muted = true;
+    var tryPlay = function(){ var p = v.play(); if(p && p.catch) p.catch(function(){}); };
+    tryPlay();
+    document.addEventListener('visibilitychange', tryPlay);
+    window.addEventListener('load', tryPlay);
+  })();
+
   document.getElementById('copy').addEventListener('click', function(){
     var t = document.getElementById('bib').innerText;
     navigator.clipboard.writeText(t).then(function(){
